@@ -558,7 +558,7 @@ class FlutterInappPurchase {
       return false;
     } else if (_platform.isAndroid) {
       var purchases =
-          await (getAvailablePurchases() as FutureOr<List<PurchasedItem>>);
+          await (getAvailablePurchases() as FutureOr<List<PurchasedItem?>>);
 
       for (var purchase in purchases) {
         if (purchase.productId == sku) return true;
