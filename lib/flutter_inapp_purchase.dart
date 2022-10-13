@@ -560,7 +560,7 @@ class FlutterInappPurchase {
           await (FlutterInappPurchase.instance.getAvailablePurchases()) ?? [];
 
       for (var purchase in purchases) {
-        if (purchase?.productId == sku) return true;
+        if (purchase.productId == sku) return true;
       }
 
       return false;
