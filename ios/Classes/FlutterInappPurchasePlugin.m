@@ -642,11 +642,12 @@
 }
 
 -(void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error {
+    
     if (flutterResult != nil) {
         flutterResult([FlutterError
-                       errorWithCode:[self standardErrorCode:(int)error.code]
-                       message:[self englishErrorCodeDescription:(int)error.code]
-                       details:nil]);
+                           errorWithCode:[NSString stringWithFormat:@"%li", (long)error.code]
+                           message:[self englishErrorCodeDescription:(int)error.code]
+                           details:nil]);
     }
     flutterResult = nil;
 }
@@ -679,14 +680,27 @@
                               @"E_ITEM_UNAVAILABLE",
                               @"E_REMOTE_ERROR",
                               @"E_NETWORK_ERROR",
-                              @"E_SERVICE_ERROR"
+                              @"E_SERVICE_ERROR",
+                              @"E_PRIVACY_ERROR",
+                              @"E_UNAUTHORIZED_ERROR_REQUEST",
+                              @"E_INVALID_OFFER_ID",
+                              @"E_INVALID_OFFER_PRICE",
+                              @"E_INVALID_SIGNATURE",
+                              @"E_MISSING_OFFER_PARAMS",
+                              @"E_INELIGIBLE_FOR_OFFER",
+                              @"E_OVERLAY_CANCELLED",
+                              @"E_OVERLAY_INVALID_CONFIG",
+                              @"E_OVERLAY_IN_BACKGROUND",
+                              @"E_OVERLAY_TIMEOUT",
+                              @"E_UNSUPPORTED_PLATFORM"
                               ];
     
     if (code > descriptions.count - 1) {
         return descriptions[0];
     }
-    return descriptions[code];
+    return [NSString stringWithFormat:@"%@ (Error code: %d)", @"E_NO_ERROR_FOUND", code];;
 }
+
 
 -(NSString *)englishErrorCodeDescription:(int)code {
     NSArray *descriptions = @[
@@ -698,7 +712,19 @@
                               @"Sorry, but this product is currently not available in the store.",
                               @"Unable to make purchase: Cloud service permission denied.",
                               @"Unable to process transaction: Your internet connection isn't stable! Try again later.",
-                              @"Unable to process transaction: Cloud service revoked."
+                              @"Unable to process transaction: Cloud service revoked.",
+                              @"User has not yet acknowledged Apple’s privacy policy for Apple Music.",
+                              @"Attempting to use a property without entitlement.",
+                              @"Offer identifier is invalid.",
+                              @"Price specified in appstore is no longer valid.",
+                              @"Signature in a payment discount is invalid",
+                              @"Some parameters are missing in payment discount.",
+                              @"User is ineligible for the offer.",
+                              @"Overlay has been cancelled.",
+                              @"Overlay configuration is invalid",
+                              @"Overlay presented in background scene.",
+                              @"Overlay timed out.",
+                              @"Platform is not supported."
                               ];
     
     if (0 <= code && code < descriptions.count)
